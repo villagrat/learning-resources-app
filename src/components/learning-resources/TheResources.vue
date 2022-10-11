@@ -30,13 +30,14 @@ import AddResource from './AddResource.vue'
         storedResources: [
         {id: 'official-guide', title: 'Official Guide', description: 'The official VueJS documentation', link: 'https://vuejs.org'},
         {id: 'google', title: 'Google', description: 'Sharpen your Google-Fu', link: 'https://www.google.com'},
-      ]
+       ]
       }
     },
     provide(){
       return {
         resources: this.storedResources,
-        addResource: this.addResource
+        addResource: this.addResource,
+        deleteResource: this.deleteResource
       }
     },
     computed: {
@@ -60,6 +61,12 @@ import AddResource from './AddResource.vue'
         }
         this.storedResources.unshift(newResource)
         this.selectedTab = 'stored-resources'
+      },
+      // dont overwrite the old-arr[]
+      // work with the same in-memory arr[] we have
+      deleteResource(id){
+        const resourceIdx = this.storedResources.findIndex(resource => resource.id === id)
+        this.storedResources.splice(resourceIdx, 1)
       }
     }
   }
